@@ -21,28 +21,50 @@
     goto shiftMenu
 }
 
-:shiftReset
-call :shiftInstructions
-mdloader.exe --first --download shift\shift_default.bin --restart
-echo.
-goto shiftMenu
+:shiftReset {
 
-:shiftFirmware
-echo Available files:
-dir shift\*.bin /b
-echo.
-set /p file_id="Please enter the file name you are trying to flash: "
-echo.
-call :shiftInstructions
-mdloader.exe --first --download shift\%file_id% --restart
-echo.
-goto shiftMenu
+    ::Prints out DFU instructions
+    call :shiftInstructions
 
-:shiftInstructions
-echo Hold FN+B for three seconds...
-echo.
-goto :eof
+    ::Calls mdloader.exe with appropriate flags
+    mdloader.exe --first --download shift\shift_default.bin --restart
+    echo.
 
-:scriptExit
-echo Exiting script...
-goto :eof
+    ::Returns to menu
+    goto shiftMenu
+}
+
+:shiftFirmware {
+
+    ::Prints out .bin files in keyboard folder
+    echo Available files:
+    dir shift\*.bin /b
+    echo.
+
+    ::Asks for file name
+    set /p file_id="Please enter the file name you are trying to flash: "
+    echo.
+
+    ::Prints out DFU instructions
+    call :shiftInstructions
+    
+    ::Calls mdloader.exe with user input file and appropriate flags
+    mdloader.exe --first --download shift\%file_id% --restart
+    echo.
+
+    ::Returns to menu
+    goto shiftMenu
+}
+
+::Prints out Shift DFU instructions
+:shiftInstructions {
+    echo Hold FN+B for three seconds...
+    echo.
+    goto :eof
+}
+
+::Exits menu script
+:scriptExit {
+    echo Exiting script...
+    goto :eof
+}
