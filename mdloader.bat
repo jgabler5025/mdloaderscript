@@ -23,7 +23,7 @@
 
 :shiftReset
 call :shiftInstructions
-mdloader.exe --first --download shift/shift_default.bin --restart
+mdloader.exe --first --download shift\shift_default.bin --restart
 echo.
 goto shiftMenu
 
@@ -34,7 +34,7 @@ echo.
 set /p file_id="Please enter the file name you are trying to flash: "
 echo.
 call :shiftInstructions
-mdloader.exe --first --download shift/%file_id% --restart
+mdloader.exe --first --download shift\%file_id% --restart
 echo.
 goto shiftMenu
 
