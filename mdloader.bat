@@ -147,12 +147,12 @@
     echo.
 
     ::Backs out of reset menu
-    if %choice% == q(
+    if %choice% == q (
         goto ctrlMenu
     )
 
     ::Original firmware reset
-    if %choice% == 1(
+    if %choice% == 1 (
 
         ::Checks if reset firmware is in defaults folder
         if not exist "defaults\ctrl_default_original.bin" (
@@ -174,7 +174,7 @@
     )
 
     ::Original firmware reset
-    if %choice% == 2(
+    if %choice% == 2 (
         
         ::Checks if reset firmware is in defaults folder
         if not exist "defaults\ctrl_default_modern.bin" (
@@ -198,7 +198,7 @@
     ::Defacto else, catches invalid inputs
     echo Invalid choice, please enter a valid option.
     echo.
-    goto ctrlMenu
+    goto ctrlReset
 }
 
 :ctrlFirmware {
