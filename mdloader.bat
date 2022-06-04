@@ -173,7 +173,7 @@
 
     )
 
-    ::Original firmware reset
+    ::Modern firmware reset
     if %choice% == 2 (
         
         ::Checks if reset firmware is in defaults folder
@@ -187,7 +187,7 @@
         call :dfuInstructions
 
         ::Calls mdloader.exe with appropriate flags
-        mdloader.exe --first --download defaults\ctrl_default_modern --restart
+        mdloader.exe --first --download defaults\ctrl_default_modern.bin --restart
         echo.
 
         ::Returns to menu
