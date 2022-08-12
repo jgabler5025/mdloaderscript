@@ -54,22 +54,66 @@
 
 :shiftReset {
 
-    ::Checks if reset firmware is in defaults folder
-    if not exist "defaults\shift_default.bin" (
-        echo Please restore the Shift default firmware to the defaults folder under the filename shift_default.bin.
-        echo.
+    ::Prints reset options
+    echo Drop Shift Reset Options:
+    echo 1. Original firmware
+    echo 2. Modern firmware
+    set /p choice="Your choice (q to cancel): "
+    echo.
+
+    ::Backs out of reset menu
+    if %choice% == q (
         goto shiftMenu
     )
 
-    ::Prints out DFU instructions
-    call :dfuInstructions
+    ::Original firmware reset
+    if %choice% == 1 (
 
-    ::Calls mdloader.exe with appropriate flags
-    mdloader.exe --first --download defaults\shift_default.bin --restart
+        ::Checks if reset firmware is in defaults folder
+        if not exist "defaults\shift_default_original.bin" (
+            echo Please restore the Shift original default firmware to the defaults folder under the filename Shift_default_original.bin.
+            echo.
+            goto shiftMenu
+        )
+
+        ::Prints out DFU instructions
+        call :dfuInstructions
+
+        ::Calls mdloader.exe with appropriate flags
+        mdloader.exe --first --download defaults\shift_default_original.bin --restart
+        echo.
+
+        ::Returns to menu
+        goto shiftMenu
+
+    )
+
+    ::Modern firmware reset
+    if %choice% == 2 (
+        
+        ::Checks if reset firmware is in defaults folder
+        if not exist "defaults\shift_default_modern.bin" (
+            echo Please restore the Shift modern default firmware to the defaults folder under the filename shift_default_modern.bin.
+            echo.
+            goto shiftMenu
+        )
+
+        ::Prints out DFU instructions
+        call :dfuInstructions
+
+        ::Calls mdloader.exe with appropriate flags
+        mdloader.exe --first --download defaults\shift_default_modern.bin --restart
+        echo.
+
+        ::Returns to menu
+        goto ctrlMenu
+
+    )
+
+    ::Defacto else, catches invalid inputs
+    echo Invalid choice, please enter a valid option.
     echo.
-
-    ::Returns to menu
-    goto shiftMenu
+    goto shiftReset
 }
 
 :shiftFirmware {
