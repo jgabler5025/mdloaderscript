@@ -1,6 +1,11 @@
 Drop Shift:
-- shift_default.bin
+- Original: shift_default_original.bin
+- Modern: shift_default_modern.bin
 
 Drop Ctrl:
 - Original: ctrl_default_original.bin
 - Modern: ctrl_default_modern.bin
+
+Drop Alt:
+- Original: alt_default_original.bin
+- Modern: alt_default_modern.bin

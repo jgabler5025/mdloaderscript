@@ -5,7 +5,8 @@
     ::Print out the main menu
     echo Main Menu -
     echo 1. Drop Ctrl
-    echo 2. Drop Shift
+    echo 2. Drop Alt
+    echo 3. Drop Shift
     set /p choice="Your choice (q to cancel): "
     echo.
 
@@ -14,6 +15,9 @@
         goto ctrlMenu 
     )
     if %choice% == 2 (
+        goto altMenu
+    )
+    if %choice% == 3 (
         goto shiftMenu
     )
     if %choice% == q (
@@ -282,6 +286,135 @@
 
     ::Returns to menu
     goto ctrlMenu
+}
+
+:altMenu {
+
+    ::Print out the menu 
+    echo Drop Alt -
+    echo 1. Reset Alt
+    echo 2. Upload new firmware
+    set /p choice="Your choice (q to cancel): "
+    echo.
+
+    ::Go to appropriate part of code if conditional is correct
+    if %choice% == 1 (
+        goto altReset
+    )
+    if %choice% == 2 (
+        goto altFirmware
+    )
+    if %choice% == q (
+        goto mainMenu
+    )
+
+    ::Defacto else
+    echo Invalid choice, please enter a valid option.
+    echo.
+    goto altMenu
+}
+
+:altReset {
+
+    ::Prints reset options
+    echo Drop Alt Reset Options:
+    echo 1. Original firmware
+    echo 2. Modern firmware
+    set /p choice="Your choice (q to cancel): "
+    echo.
+
+    ::Backs out of reset menu
+    if %choice% == q (
+        goto altMenu
+    )
+
+    ::Original firmware reset
+    if %choice% == 1 (
+
+        ::Checks if reset firmware is in defaults folder
+        if not exist "defaults\alt_default_original.bin" (
+            echo Please restore the Alt original default firmware to the defaults folder under the filename alt_default_original.bin.
+            echo.
+            goto altMenu
+        )
+
+        ::Prints out DFU instructions
+        call :dfuInstructions
+
+        ::Calls mdloader.exe with appropriate flags
+        mdloader.exe --first --download defaults\alt_default_original.bin --restart
+        echo.
+
+        ::Returns to menu
+        goto altMenu
+
+    )
+
+    ::Modern firmware reset
+    if %choice% == 2 (
+        
+        ::Checks if reset firmware is in defaults folder
+        if not exist "defaults\alt_default_modern.bin" (
+            echo Please restore the Alt modern default firmware to the defaults folder under the filename ctrl_default_modern.bin.
+            echo.
+            goto altMenu
+        )
+
+        ::Prints out DFU instructions
+        call :dfuInstructions
+
+        ::Calls mdloader.exe with appropriate flags
+        mdloader.exe --first --download defaults\alt_default_modern.bin --restart
+        echo.
+
+        ::Returns to menu
+        goto altMenu
+
+    )
+
+    ::Defacto else, catches invalid inputs
+    echo Invalid choice, please enter a valid option.
+    echo.
+    goto altReset
+}
+
+:altFirmware {
+
+    ::Prints out .bin files in keyboard folder
+    echo Available files:
+    dir alt\*.bin /b
+    echo.
+
+    ::Asks for file name
+    set /p file_id="Please enter the file name you are trying to flash (q to cancel, r to refresh file list): "
+    echo.
+
+    ::Returns to menu if user cancels
+    if %file_id% == q (
+        goto altMenu
+    )
+
+    ::Loops back to refresh file list
+    if %file_id% == r (
+        goto altFirmware
+    )
+
+    ::Loops back if an invalid file name is entered
+    if not exist "alt\"%file_id% (
+        echo Invalid file name. Please try again.
+        echo.
+        goto altFirmware
+    )
+
+    ::Prints out DFU instructions
+    call :dfuInstructions
+    
+    ::Calls mdloader.exe with user input file and appropriate flags
+    mdloader.exe --first --download alt\%file_id% --restart
+    echo.
+
+    ::Returns to menu
+    goto altMenu
 }
 
 ::Prints out DFU instructions

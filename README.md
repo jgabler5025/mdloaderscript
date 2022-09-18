@@ -8,9 +8,13 @@ Currently supports the Drop Shift and Drop Ctrl.
 - Place the unzipped files and mdloader.exe in the same folder
 - Download default config files from the [Drop Configurator](https://drop.com/mechanical-keyboards/configurator) and place them in the defaults folder with the following file names:
     - Drop Shift:
-        - shift_default.bin
+        - Original: shift_default_original.bin
+        - Modern: shift_default_modern.bin
     - Drop Ctrl:
         - Original: ctrl_default_original.bin
         - Modern: ctrl_default_modern.bin
+    - Drop Alt:
+        - Original: alt_default_original.bin
+        - Modern: alt_default_modern.bin
 - Place any Drop Configurator bin files in the appropriate folder for their keyboard
 - Run mdloader.bat to be given a menu style prompt
